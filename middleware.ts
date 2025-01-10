@@ -6,7 +6,7 @@ export function middleware(request: NextRequest) {
   // More specific Twitter bot detection
   // Twitter's official bot uses 'Twitterbot' in its user agent
   const isTwitterBot = userAgent.includes('twitterbot');
-  
+  console.log('isTwitterBot', isTwitterBot);
   // More comprehensive bot detection
 //   const isBot = /bot|googlebot|baiduspider|bingbot|msnbot|duckduckbot|teoma|slurp|yandexbot/i.test(
 //     userAgent

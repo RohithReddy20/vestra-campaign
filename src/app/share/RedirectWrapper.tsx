@@ -14,7 +14,7 @@ export default function RedirectWrapper({ type, batchId, children }: RedirectWra
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push(`/${type}?batchId=${batchId}`);
+      router.push(`/predictions/?batchId=${batchId}`);
     }, 500); // Small delay to ensure meta tags are processed
 
     return () => clearTimeout(timer);

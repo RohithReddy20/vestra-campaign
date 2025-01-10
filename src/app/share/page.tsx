@@ -1,6 +1,5 @@
 // src/app/share/page.tsx
 import { Metadata } from 'next';
-import RedirectWrapper from './RedirectWrapper';
 
 const BASE_CDN_URL = `${process.env.NEXT_PUBLIC_CDN_URL}/campaigns`;
 
@@ -72,24 +71,22 @@ export default function SharePage({ searchParams }: SharePageProps) {
   const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
 
   return (
-    <RedirectWrapper type={type} batchId={batchId}>
-      <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
-        <h1 className="text-2xl font-bold">
-          {type === 'predictions' ? 'My Useless Predictions' : 'My 2024 Resolutions'}
-        </h1>
-        <div className="max-w-2xl w-full">
-          <img
-            src={imageUrl}
-            alt={type === 'predictions' ? 'Predictions Preview' : 'Resolutions Preview'}
-            className="w-full rounded-lg shadow-lg"
-          />
-        </div>
-        <p className="text-gray-600">
-          {type === 'predictions'
-            ? '🔮 These are my AI predictions for 2025!'
-            : '🎯 These are my 2024 resolutions and their reality checks!'}
-        </p>
+    <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
+      <h1 className="text-2xl font-bold">
+        {type === 'predictions' ? 'My Useless Predictions' : 'My 2024 Resolutions'}
+      </h1>
+      <div className="max-w-2xl w-full">
+        <img
+          src={imageUrl}
+          alt={type === 'predictions' ? 'Predictions Preview' : 'Resolutions Preview'}
+          className="w-full rounded-lg shadow-lg"
+        />
       </div>
-    </RedirectWrapper>
+      <p className="text-gray-600">
+        {type === 'predictions'
+          ? '🔮 These are my AI predictions for 2025!'
+          : '🎯 These are my 2024 resolutions and their reality checks!'}
+      </p>
+    </div>
   );
 }

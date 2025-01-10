@@ -1,9 +1,9 @@
 'use client';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const BASE_CDN_URL = `${process.env.NEXT_PUBLIC_CDN_URL}/campaigns`;
+// const BASE_CDN_URL = `${process.env.NEXT_PUBLIC_CDN_URL}/campaigns`;
 
 interface SharePageClientProps {
   searchParams: {
@@ -14,8 +14,16 @@ interface SharePageClientProps {
 }
 
 export default function SharePageClient({ searchParams }: SharePageClientProps) {
-  const { type = 'resolutions', batchId, campaignId } = searchParams;
+  const { batchId, campaignId } = searchParams;
   const router = useRouter();
+
+  useEffect(() => {
+    if (!batchId || !campaignId) {
+      router.replace('/');
+    } else {
+      router.replace(`/predictions?batchId=${batchId}`);
+    }
+  }, [batchId, router]);
 
   if (!batchId || !campaignId) {
     return (
@@ -25,11 +33,8 @@ export default function SharePageClient({ searchParams }: SharePageClientProps) 
     );
   }
 
-  const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
-  const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
-  useEffect(() => {
-    router.push(`/predictions?batchId=${batchId}`);
-  }, [batchId]);
+  // const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
+  // const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
   return <div></div>;
   //   return (
   //     <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">

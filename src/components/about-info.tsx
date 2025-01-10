@@ -20,7 +20,7 @@ export function AboutInfo() {
         className="absolute top-[-150px] sm:top-[-300px] right-0 w-[200px] sm:w-[300px] md:w-[400px] h-auto object-contain opacity-70 z-10"
       />
       <p className="text-white text-xl sm:text-2xl md:text-4xl font-tfnr font-medium text-center">
-        This agent was built using{' '}
+        This agent is built by{' '}
         <span className="font-fauna text-xl sm:text-2xl sm:text-[28px] gradient-text font-thin">
           VESTRA
         </span>

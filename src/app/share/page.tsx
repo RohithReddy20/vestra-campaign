@@ -1,5 +1,7 @@
 // src/app/share/page.tsx
+'use client';
 import { Metadata } from 'next';
+import { useRouter } from 'next/navigation';
 
 const BASE_CDN_URL = `${process.env.NEXT_PUBLIC_CDN_URL}/campaigns`;
 
@@ -57,6 +59,7 @@ export async function generateMetadata({ searchParams }: SharePageProps): Promis
 }
 
 export default function SharePage({ searchParams }: SharePageProps) {
+  const router = useRouter();
   const { type = 'resolutions', batchId, campaignId } = searchParams;
 
   if (!batchId || !campaignId) {
@@ -70,6 +73,10 @@ export default function SharePage({ searchParams }: SharePageProps) {
   const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
   const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
 
+  const handleViewPrediction = () => {
+    router.push(`/prediction?batchId=${batchId}`);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 p-4">
       <h1 className="text-2xl font-bold">
@@ -82,11 +89,17 @@ export default function SharePage({ searchParams }: SharePageProps) {
           className="w-full rounded-lg shadow-lg"
         />
       </div>
-      <p className="text-gray-600">
+      <p className="text-gray-600 text-center">
         {type === 'predictions'
           ? '🔮 These are my AI predictions for 2025!'
           : '🎯 These are my 2024 resolutions and their reality checks!'}
       </p>
+      <button
+        onClick={handleViewPrediction}
+        className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+      >
+        View Full Prediction
+      </button>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function ResolutionsShareTemplate({ resolutionItems }: ResolutionsShareTe
   const remainingCount = resolutionItems.length - 1;
 
   return (
-    <Card className="p-12 rounded-2xl relative overflow-hidden w-[1200px] h-[600px] bg-white">
+    <Card className="p-16 rounded-2xl relative overflow-hidden w-[1200px] h-[600px] bg-white mx-auto flex flex-col justify-center">
       <Image
         src={resolutionsBg}
         alt="Resolutions Background"
@@ -35,7 +35,7 @@ export function ResolutionsShareTemplate({ resolutionItems }: ResolutionsShareTe
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col gap-6 max-w-4xl">
+      <div className="relative z-10 flex flex-col gap-8 max-w-3xl mx-auto">
         {/* Resolution Section */}
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-purple-100">
           <div className="text-sm uppercase font-tfnr text-purple-600 mb-2 tracking-wider">

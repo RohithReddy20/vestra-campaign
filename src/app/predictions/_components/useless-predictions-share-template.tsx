@@ -13,7 +13,7 @@ export function UselessPredictionsShareTemplate({
   const remainingCount = predictions.length - 1;
 
   return (
-    <div className="w-[1200px] h-[600px] bg-white relative p-12 overflow-hidden">
+    <div className="w-[1200px] h-[600px] bg-white relative p-16 overflow-hidden mx-auto flex flex-col justify-center">
       <Image
         src={uselessPredictionsBg}
         alt="Predictions Background"
@@ -36,7 +36,7 @@ export function UselessPredictionsShareTemplate({
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col gap-6 max-w-4xl">
+      <div className="relative z-10 flex flex-col gap-8 max-w-3xl mx-auto">
         <div className="bg-[#EFE5F6] rounded-2xl p-8 shadow-lg border border-purple-100">
           <div className="text-3xl font-alliance font-bold text-[#141414] leading-relaxed">
             &quot;{firstPrediction.prediction}&quot;

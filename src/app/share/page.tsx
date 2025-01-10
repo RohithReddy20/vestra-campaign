@@ -1,6 +1,6 @@
 // src/app/share/page.tsx
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 
 const BASE_CDN_URL = `${process.env.NEXT_PUBLIC_CDN_URL}/campaigns`;
 
@@ -68,7 +68,7 @@ export default function SharePage({ searchParams }: SharePageProps) {
     );
   }
 
-  redirect(`/predictions?batchId=${batchId}`);
+  // redirect(`/predictions?batchId=${batchId}`);
 
   const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
   const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;

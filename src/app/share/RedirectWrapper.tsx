@@ -13,6 +13,12 @@ export default function RedirectWrapper({ type, batchId, children }: RedirectWra
   const router = useRouter();
 
   useEffect(() => {
+    const isBot =
+      typeof navigator !== 'undefined' &&
+      /bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i.test(navigator.userAgent);
+
+    if (isBot) return;
+
     const timer = setTimeout(() => {
       router.push(`/predictions/?batchId=${batchId}`);
     }, 500); // Small delay to ensure meta tags are processed

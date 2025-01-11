@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRef, useCallback } from 'react';
 import { ShareURLBuilder } from '@/lib/share-utils';
 
-import resolutionsBg from '@/assets/images/resolutions-bg.png';
+import resolutionsBg from '@/assets/images/resolutions-bg.svg';
 import target from '@/assets/images/target.svg';
 import twitter from '@/assets/images/twitter.svg';
 // import whatsapp from '@/assets/images/whatsapp.svg';
@@ -109,9 +109,7 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
               </div>
               <div className="reality rounded-xl bg-[#EFE5F6] p-3 md:p-5 flex flex-col justify-center items-center gap-2 md:gap-3 w-full md:w-1/2">
                 <div className="font-tfnr text-lg md:text-xl font-bold text-[#141414]">Reality</div>
-                <div className="font-tfnr text-base md:text-lg leading-7 md:leading-8 text-center">
-                  {item.reality}
-                </div>
+                <div className="font-tfnr text-base md:text-lg text-left">{item.reality}</div>
               </div>
             </div>
           ))}

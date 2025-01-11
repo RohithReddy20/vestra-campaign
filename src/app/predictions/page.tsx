@@ -14,7 +14,7 @@ const LoadingFallback = () => (
 
 export default function PredictionsPage() {
   return (
-    <div className="overflow-y-scroll">
+    <div>
       <Suspense fallback={<LoadingFallback />}>
         <Predictions />
       </Suspense>

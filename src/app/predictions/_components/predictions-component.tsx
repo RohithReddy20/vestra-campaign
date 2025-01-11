@@ -111,7 +111,7 @@ export default function Predictions() {
   return (
     <>
       <div className="min-h-screen bg-[#0C0C0C] text-white">
-        <header className="flex items-center justify-between px-6 py-3">
+        <header className="flex items-center justify-between px-6 pb-3 pt-6">
           <Link href="/" className="flex-grow basis-0 cursor-pointer">
             <div className="flex items-center gap-3">
               <Image src={home} height={32} width={32} alt="home" />
@@ -122,29 +122,31 @@ export default function Predictions() {
             <Image src={vestra} alt="Vestra" width={40} height={40} />
             <p className="font-fauna text-2xl sm:text-[28px] gradient-text font-thin">VESTRA</p>
           </div>
-          <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-center sm:justify-end flex-grow basis-0">
-            <Link href="https://vestra.ai" target="_blank" className="sm:w-full">
-              <Button
-                variant="outline"
-                className="text-xs sm:text-sm font-medium bg-transparent text-black bg-white hover:bg-zinc-100 font-tfnr sm:w-full p-3"
-              >
-                <span className="hidden sm:block">Visit Vestra</span>
-                <span className="h-5 w-5 sm:h-6 sm:w-6 sm:hidden">
-                  <Image src={vestra} height={20} width={20} alt="twitter" />
-                </span>
-              </Button>
-            </Link>
-            <Link href="https://x.com/vestra_ai" target="_blank" className="sm:w-full">
-              <Button
-                variant="outline"
-                className="text-xs sm:text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr sm:w-full p-3"
-              >
-                <span className="hidden sm:block"> Follow us on</span>
-                <span className="h-5 w-5 sm:h-6 sm:w-6">
-                  <Image src={twitter} height={20} width={20} alt="twitter" />
-                </span>
-              </Button>
-            </Link>
+          <div className="flex items-center w-24 sm:w-auto justify-end flex-grow basis-0">
+            <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-end">
+              <Link href="https://vestra.ai" target="_blank" className="sm:w-full">
+                <Button
+                  variant="outline"
+                  className="text-xs sm:text-sm font-medium bg-transparent text-black bg-white hover:bg-zinc-300 font-tfnr sm:w-full p-3 max-w-36"
+                >
+                  <span className="hidden sm:block">Visit Vestra</span>
+                  <span className="h-5 w-5 sm:h-6 sm:w-6 sm:hidden">
+                    <Image src={vestra} height={20} width={20} alt="twitter" />
+                  </span>
+                </Button>
+              </Link>
+              <Link href="https://x.com/vestra_ai" target="_blank" className="sm:w-full">
+                <Button
+                  variant="outline"
+                  className="text-xs sm:text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr sm:w-full p-3 max-w-36"
+                >
+                  <span className="hidden sm:block"> Follow us on</span>
+                  <span className="h-5 w-5 sm:h-6 sm:w-6">
+                    <Image src={twitter} height={20} width={20} alt="twitter" />
+                  </span>
+                </Button>
+              </Link>
+            </div>
           </div>
         </header>
         <div className="mx-auto px-4 pt-8 sm:py-16 text-center block sm:hidden">
@@ -182,21 +184,21 @@ export default function Predictions() {
             <Resolutions predictionsData={predictionsData} />
           </div>
 
-          <div className="text-center mt-8 sm:mt-10 max-w-lg mx-auto px-4">
-            <h2 className="text-xl sm:text-2xl font-medium font-tfnr mb-4 sm:mb-5">
+          <div className="text-center mt-12 sm:mt-16 max-w-lg mx-auto px-4">
+            <h2 className="text-2xl sm:text-3xl font-medium font-tfnr mb-6 sm:mb-8">
               Try with your own profile
             </h2>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <Input
                 type="text"
                 placeholder="@username"
                 value={resolutionsUsername}
                 onChange={e => setResolutionsUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="bg-black border-[#333333] text-white font-alliance text-base sm:text-lg h-9 rounded-s"
+                className="bg-black border-[#333333] text-white font-alliance text-lg sm:text-xl h-12 rounded-md"
               />
               <Button
-                className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-xs sm:text-sm px-4 h-9 font-alliance font-medium rounded-s w-full sm:w-auto"
+                className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm sm:text-base px-6 h-12 font-alliance rounded-md w-full sm:w-auto font-semibold"
                 onClick={() => handlePredict(resolutionsUsername)}
                 disabled={isLoading}
               >

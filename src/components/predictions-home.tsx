@@ -131,8 +131,8 @@ export default function PredictionsHome() {
                   Nostradamus IRL
                 </h1>
                 <div>
-                  <p className="text-[#B8B8B8] text-base md:text-2xl leading-[32px] md:leading-[46px] font-tfnr">
-                    He knows your future, in a way that&apos;s fun.So right, it&apos;s second to
+                  <p className="text-[#B8B8B8] text-base md:text-xl font-tfnr">
+                    He knows your future, in a way that&apos;s fun. So right, it&apos;s second to
                     none.
                   </p>
                 </div>
@@ -165,7 +165,7 @@ export default function PredictionsHome() {
                   Discover your <span className="text-[#E52D27]">2025</span> resolutions with a
                   twist
                 </div>
-                <p className="text-[#B8B8B8] text-base md:text-2xl leading-[32px] md:leading-[46px] font-tfnr">
+                <p className="text-[#B8B8B8] text-base md:text-xl font-tfnr">
                   Crafts resolutions based on your Twitter profile.
                 </p>
                 <div className="flex flex-col md:flex-row gap-3 mt-4 md:mt-6">

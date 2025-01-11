@@ -100,6 +100,14 @@ export function AgentsInfoCarousel() {
     setIsDragging(false);
   };
 
+  const handleScrollLeft = () => {
+    containerRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+
+  const handleScrollRight = () => {
+    containerRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
   React.useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -117,8 +125,36 @@ export function AgentsInfoCarousel() {
     };
   }, [updateCenterCard]);
 
+  React.useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    setTimeout(() => {
+      const cards = container.getElementsByClassName('carousel-card');
+      const defaultCenterCard = cards[centerIndex] as HTMLElement;
+      if (!defaultCenterCard) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const cardRect = defaultCenterCard.getBoundingClientRect();
+      container.scrollLeft +=
+        cardRect.left + cardRect.width / 2 - (containerRect.left + containerRect.width / 2);
+    }, 0);
+  }, []);
+
   return (
-    <div className="relative mx-auto w-full overflow-hidden py-[5vh]">
+    <div className="relative group mx-auto w-full overflow-hidden py-[5vh]">
+      <button
+        onClick={handleScrollLeft}
+        className="absolute left-2 top-1/2 hidden -translate-y-1/2 group-hover:flex z-10 bg-zinc-700 p-2 rounded text-white"
+      >
+        ‹
+      </button>
+      <button
+        onClick={handleScrollRight}
+        className="absolute right-2 top-1/2 hidden -translate-y-1/2 group-hover:flex z-10 bg-zinc-700 p-2 rounded text-white"
+      >
+        ›
+      </button>
       <div
         ref={containerRef}
         className={cn(
@@ -141,7 +177,7 @@ export function AgentsInfoCarousel() {
             <div
               key={feature.system_id}
               className={cn(
-                'carousel-card relative px-2',
+                'carousel-card relative px-2 select-none',
                 'min-w-[300px] max-w-[300px]',
                 'sm:min-w-[320px] sm:max-w-[320px]',
                 'md:min-w-[340px] md:max-w-[340px]',
@@ -168,7 +204,7 @@ export function AgentsInfoCarousel() {
                         src={feature.image_url}
                         blurDataURL={feature.image_blurhash}
                         alt={feature.system_id}
-                        className="object-cover"
+                        className="object-cover pointer-events-none"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         priority={Math.abs(distance) <= 1}

@@ -10,7 +10,7 @@ import { ShareURLBuilder } from '@/lib/share-utils';
 
 import twitter from '@/assets/images/twitter.svg';
 import crystallBall from '@/assets/images/crystal-ball.svg';
-import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.png';
+import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.svg';
 import { PredictionProgress } from '@/types/types';
 import { UselessPredictionsShareTemplate } from './useless-predictions-share-template';
 
@@ -93,7 +93,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
         {predictionsData.data.outputs.predictions.predictions.map((prediction, index) => (
           <div
             key={index}
-            className="z-10 font-alliance text-base text-left font-bold text-[#141414]"
+            className="z-10 font-tfnr text-base text-left font-medium text-[#141414]"
           >
             {prediction.prediction}
           </div>

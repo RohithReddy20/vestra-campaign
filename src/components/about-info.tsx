@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import vestraLogo from '@/assets/images/vestra.svg';
-import { PerspectiveCarousel } from './perspective-carousel';
+import { AgentsInfoCarousel } from './agents-info-carousel';
 import lines from '@/assets/images/lines.png';
 import bgGraphic from '@/assets/images/bg-graphic.png';
 
@@ -29,7 +29,7 @@ export function AboutInfo() {
         Explore a vast library of pre-built agents and tools. Find ready-to-use solutions or get
         inspired to build your own.
       </p>
-      <PerspectiveCarousel />
+      <AgentsInfoCarousel />
       <div className="footer flex flex-col sm:flex-row gap-y-8 sm:gap-x-16 justify-center items-center w-full pb-8 sm:pb-16">
         <div className="flex flex-col items-center justify-center gap-2 md:gap-4 relative z-10 w-full sm:w-[40%]">
           <Image

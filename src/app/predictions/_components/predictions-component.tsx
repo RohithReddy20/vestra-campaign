@@ -112,17 +112,17 @@ export default function Predictions() {
     <>
       <div className="min-h-screen bg-[#0C0C0C] text-white">
         <header className="flex items-center justify-between px-6 py-3">
-          <Link href="/">
+          <Link href="/" className="flex-grow basis-0 cursor-pointer">
             <div className="flex items-center gap-3">
               <Image src={home} height={32} width={32} alt="home" />
               <span className="text-sm sm:text-base font-tfnr font-medium">Home</span>
             </div>
           </Link>
-          <div className="hidden items-center justify-center sm:flex">
+          <div className="hidden items-center justify-center sm:flex flex-grow">
             <Image src={vestra} alt="Vestra" width={40} height={40} />
             <p className="font-fauna text-2xl sm:text-[28px] gradient-text font-thin">VESTRA</p>
           </div>
-          <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-center sm:justify-end">
+          <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-center sm:justify-end flex-grow basis-0">
             <Link href="https://vestra.ai" target="_blank" className="sm:w-full">
               <Button
                 variant="outline"
@@ -172,11 +172,9 @@ export default function Predictions() {
             <p className="text-[#B8B8B8] text-lg sm:text-xl mb-4 sm:mb-6">
               @{predictionsData.data.inputs.user_data.username}
             </p>
-            {/* <p className="text-white mb-8 max-w-lg mx-auto text-base font-alliance leading-relaxed">
-              Based on our AI agent&apos;s analysis of your tweets, you are a 52-year-old male
-              entrepreneur, CEO of multiple companies including Tesla and SpaceX, and a controversial
-              public figure known for your outspoken nature on social media.
-            </p> */}
+            <p className="text-white mb-8 max-w-lg mx-auto text-base font-alliance leading-relaxed">
+              {predictionsData.data.inputs.user_data.user_description}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:gap-10">

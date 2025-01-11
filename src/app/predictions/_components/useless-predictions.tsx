@@ -71,7 +71,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
         <div className="flex justify-center items-center gap-2">
           <Image src={crystallBall} alt="Target" width={40} height={40} />
           <span className="text-[#141414]  font-tfnr text-base md:text-xl font-bold">
-            Useless Predictions
+            Predictions
           </span>
         </div>
         <div className="flex justify-center items-center gap-2">
@@ -90,14 +90,16 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
       </div>
       <div className="my-5 h-px bg-[#262626] z-10 relative"></div>
       <div className="resolution-list flex flex-col gap-6 z-10">
-        {predictionsData.data.outputs.predictions.predictions.map((prediction, index) => (
-          <div
-            key={index}
-            className="z-10 font-tfnr text-base text-left font-medium text-[#141414]"
-          >
-            {prediction.prediction}
-          </div>
-        ))}
+        {predictionsData.data.outputs.predictions.predictions
+          .slice(0, 3)
+          .map((prediction, index) => (
+            <div
+              key={index}
+              className="z-10 font-tfnr text-base text-left font-medium text-[#141414]"
+            >
+              {prediction.prediction}
+            </div>
+          ))}
       </div>
       <div className="fixed -z-50" style={{ left: '-9999px', top: '-9999px' }}>
         <div ref={shareRef}>

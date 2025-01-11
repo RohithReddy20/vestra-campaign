@@ -99,7 +99,7 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
         <div className="my-3 md:my-5 h-px bg-[#262626] z-10 relative"></div>
 
         <div className="resolution-list flex flex-col gap-5 md:gap-10 z-10">
-          {predictionsData.data.outputs.resolutions.goals.map((item, index) => (
+          {predictionsData.data.outputs.resolutions.goals.slice(0, 4).map((item, index) => (
             <div
               key={index}
               className="flex flex-col md:flex-row w-full justify-between gap-3 md:gap-5 gap-y-5 pt-4 items-stretch md:items-center z-10"

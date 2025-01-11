@@ -118,9 +118,14 @@ export default function Predictions() {
               <span className="text-sm sm:text-base font-tfnr font-medium">Home</span>
             </div>
           </Link>
-          <div className="hidden items-center justify-center sm:flex flex-grow">
-            <Image src={vestra} alt="Vestra" width={40} height={40} />
-            <p className="font-fauna text-2xl sm:text-[28px] gradient-text font-thin">VESTRA</p>
+          <div className="hidden items-center justify-center sm:flex flex-grow flex-col">
+            <div className="hidden items-center justify-center sm:flex flex-grow">
+              <Image src={vestra} alt="Vestra" width={40} height={40} />
+              <p className="font-fauna text-2xl sm:text-[28px] gradient-text font-thin">VESTRA</p>
+            </div>
+            <p className="font-tfnr text-base text-[#B8B8B8]">
+              AI that’s easy to use and fun to explore
+            </p>
           </div>
           <div className="flex items-center w-24 sm:w-auto justify-end flex-grow basis-0">
             <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-end">

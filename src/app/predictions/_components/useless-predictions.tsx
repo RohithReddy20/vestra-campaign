@@ -13,7 +13,7 @@ import crystallBall from '@/assets/images/crystal-ball.svg';
 import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.svg';
 import { PredictionProgress } from '@/types/types';
 import { UselessPredictionsShareTemplate } from './useless-predictions-share-template';
-import { AnalyticsEvent, trackEvent, trackShare } from '@/utils/analytics';
+import { trackShare } from '@/utils/analytics';
 
 export function UselessPredictions({ predictionsData }: { predictionsData: PredictionProgress }) {
   const shareRef = useRef<HTMLDivElement>(null);

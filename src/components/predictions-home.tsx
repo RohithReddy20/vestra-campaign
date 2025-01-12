@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import ProcessingModal from './processing-modal';
@@ -11,6 +11,7 @@ import { PredictionStart } from '@/types/types';
 import { useToast } from '@/hooks/use-toast';
 
 import homeBg from '@/assets/images/home-bg.png';
+import { initializeAnalytics, trackPredictionClick } from '@/utils/analytics';
 
 export default function PredictionsHome() {
   const [nostradamusUsername, setNostradamusUsername] = useState('');
@@ -21,8 +22,16 @@ export default function PredictionsHome() {
   const [batchId, setBatchId] = useState<string | null>(null);
   const { toast } = useToast();
 
+  useEffect(() => {
+    console.log('Initializing analytics on main page');
+    initializeAnalytics();
+  }, []);
+
   const handlePredict = async (username: string, type: 'prediction' | 'resolution') => {
     if (!username) return;
+
+    // Track prediction click
+    trackPredictionClick(type === 'prediction' ? 'predictions' : 'resolutions', username);
 
     if (type === 'prediction') {
       setIsPredictionLoading(true);

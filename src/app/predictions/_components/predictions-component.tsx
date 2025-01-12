@@ -16,14 +16,15 @@ import { Resolutions } from './resolutions';
 import { UselessPredictions } from './useless-predictions';
 import { PredictionProgress } from '@/types/types';
 import { AboutInfo } from '@/components/about-info';
+import { trackButtonClick, trackTryWithOwnProfile } from '@/utils/analytics';
 
 export default function Predictions() {
   const searchParams = useSearchParams();
-  const batchId = searchParams.get('batchId');
+  const batchId = searchParams?.get('batchId');
   const { toast } = useToast();
   const router = useRouter();
   const [predictionsData, setPredictionsData] = useState<PredictionProgress | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resolutionsUsername, setResolutionsUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,10 @@ export default function Predictions() {
   const handlePredict = async (username: string) => {
     if (!username) return;
     setIsLoading(true);
+
+    // Track try with own profile
+    trackTryWithOwnProfile(username);
+
     try {
       const response = await fetch('/api/predict', {
         method: 'POST',
@@ -129,7 +134,12 @@ export default function Predictions() {
           </div>
           <div className="flex items-center w-24 sm:w-auto justify-end flex-grow basis-0">
             <div className="flex flex-row items-center gap-2 sm:gap-3 w-24 sm:w-auto justify-end">
-              <Link href="https://vestra.ai" target="_blank" className="sm:w-full">
+              <Link
+                href="https://vestra.ai"
+                target="_blank"
+                className="sm:w-full"
+                onClick={() => trackButtonClick('visit vestra')}
+              >
                 <Button
                   variant="outline"
                   className="text-xs sm:text-sm font-medium bg-transparent text-black bg-white hover:bg-zinc-300 font-tfnr sm:w-full p-3 max-w-36"
@@ -140,7 +150,12 @@ export default function Predictions() {
                   </span>
                 </Button>
               </Link>
-              <Link href="https://x.com/vestra_ai" target="_blank" className="sm:w-full">
+              <Link
+                href="https://x.com/vestra_ai"
+                target="_blank"
+                className="sm:w-full"
+                onClick={() => trackButtonClick('follow on X')}
+              >
                 <Button
                   variant="outline"
                   className="text-xs sm:text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr sm:w-full p-3 max-w-36"
@@ -193,17 +208,17 @@ export default function Predictions() {
             <h2 className="text-2xl sm:text-3xl font-medium font-tfnr mb-6 sm:mb-8">
               Try with your own profile
             </h2>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 z-20">
               <Input
                 type="text"
                 placeholder="@username"
                 value={resolutionsUsername}
                 onChange={e => setResolutionsUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="bg-black border-[#333333] text-white font-alliance text-lg sm:text-xl h-12 rounded-md"
+                className="bg-black border-[#333333] text-white font-alliance text-lg sm:text-xl h-12 rounded-md z-20"
               />
               <Button
-                className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm sm:text-base px-6 h-12 font-alliance rounded-md w-full sm:w-auto font-semibold"
+                className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm sm:text-base px-6 h-12 font-alliance rounded-md w-full sm:w-auto font-semibold z-20"
                 onClick={() => handlePredict(resolutionsUsername)}
                 disabled={isLoading}
               >

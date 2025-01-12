@@ -20,6 +20,7 @@ export async function generateMetadata({ searchParams }: SharePageProps): Promis
       title: 'Share Preview',
     };
   }
+
   const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
   const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
   const title = type === 'predictions' ? 'My Useless Predictions' : 'My 2024 Resolutions';

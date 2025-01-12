@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { useComponentToImage } from '@/hooks/use-component-to-image';
 import { useToast } from '@/hooks/use-toast';
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { ShareURLBuilder } from '@/lib/share-utils';
 
 import resolutionsBg from '@/assets/images/resolutions-bg.svg';
@@ -16,14 +16,17 @@ import twitter from '@/assets/images/twitter.svg';
 // import linkedin from '@/assets/images/linkedin.svg';
 import { ResolutionsShareTemplate } from './resolutions-share-template';
 import { PredictionProgress } from '@/types/types';
+import {  trackShare } from '@/utils/analytics';
 // import ShinyButton from '@/components/ui/shiny-button';
 
 export function Resolutions({ predictionsData }: { predictionsData: PredictionProgress }) {
   const shareRef = useRef<HTMLDivElement>(null);
-  const { isUploading, uploadImage } = useComponentToImage();
+  const { uploadImage } = useComponentToImage();
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   const handleShare = useCallback(async () => {
+    setLoading(true);
     const urlBuilder = new ShareURLBuilder(window.location.origin);
     try {
       const imagePrefix = 'resolutions';
@@ -46,6 +49,9 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
         'resolutions'
       );
 
+      // Track share event
+      trackShare('resolutions', predictionsData.data.inputs.user_data.username, 'X');
+
       window.open(twitterShareUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
       console.error('Share error:', error);
@@ -55,6 +61,7 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
         variant: 'destructive',
       });
     }
+    setLoading(false);
   }, [predictionsData.data.batch_id, shareRef, toast, uploadImage]);
 
   return (
@@ -77,12 +84,12 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
               variant="outline"
               className="text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr"
               onClick={handleShare}
-              disabled={isUploading}
+              disabled={loading}
             >
               <span className="h-6 w-6">
                 <Image src={twitter} height={24} width={24} alt="twitter" />
               </span>
-              {isUploading ? 'Sharing...' : 'Share'}
+              {loading ? 'Sharing...' : 'Share'}
             </Button>
             {/* <Button className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200">
               <Image src={whatsapp} height={100} width={100} alt="whatsapp" />

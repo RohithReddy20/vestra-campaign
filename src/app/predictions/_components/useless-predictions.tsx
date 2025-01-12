@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import { useComponentToImage } from '@/hooks/use-component-to-image';
 import { useToast } from '@/hooks/use-toast';
 import { ShareURLBuilder } from '@/lib/share-utils';
@@ -13,13 +13,16 @@ import crystallBall from '@/assets/images/crystal-ball.svg';
 import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.svg';
 import { PredictionProgress } from '@/types/types';
 import { UselessPredictionsShareTemplate } from './useless-predictions-share-template';
+import { AnalyticsEvent, trackEvent, trackShare } from '@/utils/analytics';
 
 export function UselessPredictions({ predictionsData }: { predictionsData: PredictionProgress }) {
   const shareRef = useRef<HTMLDivElement>(null);
-  const { isUploading, uploadImage } = useComponentToImage();
+  const [loading, setLoading] = useState(false);
+  const {  uploadImage } = useComponentToImage();
   const { toast } = useToast();
 
   const handleShare = useCallback(async () => {
+    setLoading(true);
     const urlBuilder = new ShareURLBuilder(window.location.origin);
     try {
       const imagePrefix = 'useless-predictions';
@@ -30,23 +33,15 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
       }
 
       const campaignId = result.data.data[0].uid;
-
-      // Add a delay to ensure image processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
       const { twitterShareUrl } = urlBuilder.buildShareUrls(
         predictionsData.data.batch_id,
         campaignId,
         'predictions'
       );
 
-      toast({
-        title: 'Ready to share!',
-        description: 'Opening Twitter...',
-        variant: 'default',
-      });
+      // Track share event
+      trackShare('predictions', predictionsData.data.inputs.user_data.username, 'X');
 
-      // Open in a new tab instead of popup
       window.open(twitterShareUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
       console.error('Share error:', error);
@@ -56,6 +51,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
         variant: 'destructive',
       });
     }
+    setLoading(false);
   }, [predictionsData.data.batch_id, shareRef, toast, uploadImage]);
 
   return (
@@ -79,12 +75,12 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
             variant="outline"
             className="text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr"
             onClick={handleShare}
-            disabled={isUploading}
+            disabled={loading}
           >
             <span className="h-6 w-6">
               <Image src={twitter} height={24} width={24} alt="twitter" />
             </span>
-            {isUploading ? 'Sharing...' : 'Share'}
+            {loading ? 'Sharing...' : 'Share'}
           </Button>
         </div>
       </div>

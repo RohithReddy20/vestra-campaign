@@ -3,9 +3,8 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import { useComponentToImage } from '@/hooks/use-component-to-image';
 import { useToast } from '@/hooks/use-toast';
-import { useRef, useCallback, useState, forwardRef } from 'react';
+import { useCallback, useState, forwardRef } from 'react';
 import { ShareURLBuilder } from '@/lib/share-utils';
 
 import resolutionsBg from '@/assets/images/resolutions-bg.svg';

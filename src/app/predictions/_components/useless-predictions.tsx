@@ -3,8 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import { useRef, useCallback, useState, forwardRef } from 'react';
-import { useComponentToImage } from '@/hooks/use-component-to-image';
+import { useCallback, useState, forwardRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { ShareURLBuilder } from '@/lib/share-utils';
 import { PredictionProgress } from '@/types/types';

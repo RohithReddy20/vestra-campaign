@@ -36,7 +36,7 @@ export function AboutInfo() {
         </p>
         <AgentsInfoCarousel />
       </div>
-      <div className="footer flex flex-col sm:flex-row gap-y-8 sm:gap-x-8 md:gap-x-16 justify-center items-center w-full pb-52">
+      <div className="footer flex flex-col sm:flex-row gap-y-8 sm:gap-x-8 md:gap-x-16 justify-center items-center w-full pt-14 pb-52">
         <div className="flex flex-col items-center justify-center md:gap-4 relative z-10 w-full sm:w-[40%]">
           <Link href="https://vestra.ai" target="_blank" onClick={() => trackVisitVestra()}>
             <div className="flex flex-col items-center justify-center gap-2">

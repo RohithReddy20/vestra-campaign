@@ -75,6 +75,7 @@ export default function Predictions() {
         try {
           const uploads = [];
 
+          // Only upload predictions image if it doesn't exist
           if (!predictionsData.data.additional_data.predictions?.media_url) {
             uploads.push(
               uploadImage(
@@ -86,6 +87,7 @@ export default function Predictions() {
             );
           }
 
+          // Only upload resolutions image if it doesn't exist
           if (!predictionsData.data.additional_data.resolutions?.media_url) {
             uploads.push(
               uploadImage(
@@ -97,15 +99,17 @@ export default function Predictions() {
             );
           }
 
-          await Promise.all(uploads);
+          if (uploads.length > 0) {
+            await Promise.all(uploads);
 
-          // Refetch the data to get updated media URLs
-          const response = await fetch(`/api/progress/${batchId}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch updated predictions');
+            // Only refetch if we actually uploaded something
+            const response = await fetch(`/api/progress/${batchId}`);
+            if (!response.ok) {
+              throw new Error('Failed to fetch updated predictions');
+            }
+            const newData = await response.json();
+            setPredictionsData(newData);
           }
-          const newData = await response.json();
-          setPredictionsData(newData);
         } catch (err) {
           console.error('Error uploading images:', err);
         } finally {

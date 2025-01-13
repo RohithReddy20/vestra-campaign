@@ -2,32 +2,46 @@ import * as amplitude from '@amplitude/analytics-browser';
 
 // Event names enum
 export enum AnalyticsEvent {
-  CLICK_PREDICTION = 'CLICK_PREDICTION',
-  BUTTON_CLICK = 'BUTTON_CLICK',
-  CLICK_SHARE = 'CLICK_SHARE',
-  CLICK_TRY_WITH_OWN_PROFILE = 'CLICK_TRY_WITH_OWN_PROFILE',
-  WEBSITE_OPEN = 'WEBSITE_OPEN',
+  // Page View Events
+  PREDICTIONS_WEBSITE_OPEN = 'PREDICTIONS_WEBSITE_OPEN',
+
+  // Prediction Start Events
+  PREDICTIONS_START_PREDICTIONS = 'PREDICTIONS_START_PREDICTIONS',
+  PREDICTIONS_START_RESOLUTIONS = 'PREDICTIONS_START_RESOLUTIONS',
+
+  // Navigation Button Events
+  PREDICTIONS_CLICK_VISIT_VESTRA = 'PREDICTIONS_CLICK_VISIT_VESTRA',
+  PREDICTIONS_CLICK_FOLLOW_TWITTER = 'PREDICTIONS_CLICK_FOLLOW_TWITTER',
+  PREDICTIONS_CLICK_HOME = 'PREDICTIONS_CLICK_HOME',
+
+  // Share Events
+  PREDICTIONS_TWITTER_SHARE_PREDICTIONS = 'PREDICTIONS_TWITTER_SHARE_PREDICTIONS',
+  PREDICTIONS_TWITTER_SHARE_RESOLUTIONS = 'PREDICTIONS_TWITTER_SHARE_RESOLUTIONS',
+
+  // Try With Own Profile Event
+  PREDICTIONS_TRY_WITH_OWN_PROFILE = 'PREDICTIONS_TRY_WITH_OWN_PROFILE',
 }
 
 // Event properties types
 export interface AnalyticsEventProperties {
-  [AnalyticsEvent.CLICK_PREDICTION]: {
-    agent_id: 'predictions' | 'resolutions';
-    x_id: string;
+  [AnalyticsEvent.PREDICTIONS_WEBSITE_OPEN]: {
+    page_url: string;
+    referrer: string;
   };
-  [AnalyticsEvent.BUTTON_CLICK]: {
-    button_id: 'visit vestra' | 'follow on X';
+  [AnalyticsEvent.PREDICTIONS_START_PREDICTIONS]: {
+    username: string;
   };
-  [AnalyticsEvent.CLICK_SHARE]: {
-    agent_id: string;
-    x_id: string;
-    social_id: 'X' | 'whatsapp' | 'linkedin' | 'facebook';
+  [AnalyticsEvent.PREDICTIONS_START_RESOLUTIONS]: {
+    username: string;
   };
-  [AnalyticsEvent.CLICK_TRY_WITH_OWN_PROFILE]: {
-    x_id: string;
+  [AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_PREDICTIONS]: {
+    username: string;
   };
-  [AnalyticsEvent.WEBSITE_OPEN]: {
-    url: string;
+  [AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_RESOLUTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_TRY_WITH_OWN_PROFILE]: {
+    username: string;
   };
 }
 
@@ -40,45 +54,45 @@ export const initializeAnalytics = () => {
 // Generic track event function with type safety
 export const trackEvent = <T extends AnalyticsEvent>(
   eventName: T,
-  properties: AnalyticsEventProperties[T]
+  properties?: T extends keyof AnalyticsEventProperties ? AnalyticsEventProperties[T] : never
 ) => {
   amplitude.track(eventName, properties);
 };
 
-// Common tracking functions
-export const trackPredictionClick = (agentId: 'predictions' | 'resolutions', xId: string) => {
-  trackEvent(AnalyticsEvent.CLICK_PREDICTION, {
-    agent_id: agentId,
-    x_id: xId,
-  });
+// Tracking functions for each specific event
+export const trackPredictionStart = (type: 'predictions' | 'resolutions', username: string) => {
+  const eventName =
+    type === 'predictions'
+      ? AnalyticsEvent.PREDICTIONS_START_PREDICTIONS
+      : AnalyticsEvent.PREDICTIONS_START_RESOLUTIONS;
+
+  trackEvent(eventName, { username });
 };
 
-export const trackButtonClick = (buttonId: 'visit vestra' | 'follow on X') => {
-  trackEvent(AnalyticsEvent.BUTTON_CLICK, {
-    button_id: buttonId,
-  });
+export const trackVisitVestra = () => {
+  trackEvent(AnalyticsEvent.PREDICTIONS_CLICK_VISIT_VESTRA);
 };
 
-export const trackShare = (
-  agentId: string,
-  xId: string,
-  socialId: 'X' | 'whatsapp' | 'linkedin' | 'facebook'
-) => {
-  trackEvent(AnalyticsEvent.CLICK_SHARE, {
-    agent_id: agentId,
-    x_id: xId,
-    social_id: socialId,
-  });
+export const trackFollowTwitter = () => {
+  trackEvent(AnalyticsEvent.PREDICTIONS_CLICK_FOLLOW_TWITTER);
 };
 
-export const trackTryWithOwnProfile = (xId: string) => {
-  trackEvent(AnalyticsEvent.CLICK_TRY_WITH_OWN_PROFILE, {
-    x_id: xId,
-  });
+export const trackShare = (type: 'predictions' | 'resolutions', username: string) => {
+  const eventName =
+    type === 'predictions'
+      ? AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_PREDICTIONS
+      : AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_RESOLUTIONS;
+
+  trackEvent(eventName, { username });
 };
 
-export const trackWebsiteOpen = (url: string = window.location.href) => {
-  trackEvent(AnalyticsEvent.WEBSITE_OPEN, {
-    url,
+export const trackTryWithOwnProfile = (username: string) => {
+  trackEvent(AnalyticsEvent.PREDICTIONS_TRY_WITH_OWN_PROFILE, { username });
+};
+
+export const trackWebsiteOpen = () => {
+  trackEvent(AnalyticsEvent.PREDICTIONS_WEBSITE_OPEN, {
+    page_url: window.location.href,
+    referrer: document.referrer,
   });
 };

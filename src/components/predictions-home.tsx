@@ -11,7 +11,7 @@ import { PredictionStart } from '@/types/types';
 import { useToast } from '@/hooks/use-toast';
 
 import homeBg from '@/assets/images/home-bg.png';
-import { initializeAnalytics, trackPredictionClick } from '@/utils/analytics';
+import { initializeAnalytics, trackPredictionStart } from '@/utils/analytics';
 
 export default function PredictionsHome() {
   const [nostradamusUsername, setNostradamusUsername] = useState('');
@@ -31,7 +31,7 @@ export default function PredictionsHome() {
     if (!username) return;
 
     // Track prediction click
-    trackPredictionClick(type === 'prediction' ? 'predictions' : 'resolutions', username);
+    trackPredictionStart(type === 'prediction' ? 'predictions' : 'resolutions', username);
 
     if (type === 'prediction') {
       setIsPredictionLoading(true);
@@ -159,7 +159,7 @@ export default function PredictionsHome() {
                     disabled={isPredictionLoading}
                   />
                   <Button
-                    className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm px-4 h-12 font-alliance font-medium rounded-s w-full md:w-48"
+                    className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm px-4 h-12 font-alliance font-semibold rounded-s w-full md:w-48"
                     onClick={() => handlePredict(nostradamusUsername, 'prediction')}
                     disabled={isPredictionLoading}
                   >
@@ -188,7 +188,7 @@ export default function PredictionsHome() {
                     disabled={isResolutionLoading}
                   />
                   <Button
-                    className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm px-4 h-12 font-alliance font-medium rounded-s w-full md:w-48"
+                    className="bg-[#FFFDEE] hover:bg-[#F5F5DC]/90 text-black text-sm px-4 h-12 font-alliance font-semibold rounded-s w-full md:w-48"
                     onClick={() => handlePredict(resolutionsUsername, 'resolution')}
                     disabled={isResolutionLoading}
                   >

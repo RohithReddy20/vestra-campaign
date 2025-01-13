@@ -2,18 +2,19 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   try {
-    const { imagePath, base64Image } = await req.json();
+    const { imagePath, base64Image, type, batchId } = await req.json();
 
     // Convert base64 to blob
     const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
-    
-    // Create FormData and append file and folder
-    const formData = new FormData();
-    formData.append('files', new Blob([buffer], { type: 'image/png' }), imagePath);
-    formData.append('folder', 'campaigns');
 
-    const response = await fetch(`${process.env.API_URL}/media/upload`, {
+    // Create FormData with the new format
+    const formData = new FormData();
+    formData.append('image', new Blob([buffer], { type: 'image/png' }), imagePath);
+    formData.append('type', type);
+    formData.append('batchId', batchId);
+
+    const response = await fetch(`${process.env.API_URL}/campaigns/media`, {
       method: 'POST',
       body: formData,
     });

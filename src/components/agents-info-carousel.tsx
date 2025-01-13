@@ -158,7 +158,7 @@ export function AgentsInfoCarousel() {
       <div
         ref={containerRef}
         className={cn(
-          'flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden px-[5vw]',
+          'flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden px-[10vw] sm:px-[5vw]',
           'scrollbar-none perspective-carousel',
           isDragging ? 'cursor-grabbing' : 'cursor-grab'
         )}
@@ -189,7 +189,7 @@ export function AgentsInfoCarousel() {
                 style={{
                   transform: `
                     perspective(1000px)
-                    scale(${1 - Math.abs(distance) * 0.15})
+                    scale(${1 - Math.abs(distance) * 0.1})
                     translateX(${distance * -2}%)
                     translateZ(${-Math.abs(distance) * 80}px)
                     rotateY(${distance * -5}deg)

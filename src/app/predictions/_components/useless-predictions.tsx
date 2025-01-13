@@ -3,36 +3,53 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Image from 'next/image';
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, forwardRef } from 'react';
 import { useComponentToImage } from '@/hooks/use-component-to-image';
 import { useToast } from '@/hooks/use-toast';
 import { ShareURLBuilder } from '@/lib/share-utils';
-
-import twitter from '@/assets/images/twitter.svg';
-import crystallBall from '@/assets/images/crystal-ball.svg';
-import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.svg';
 import { PredictionProgress } from '@/types/types';
 import { UselessPredictionsShareTemplate } from './useless-predictions-share-template';
 import { trackShare } from '@/utils/analytics';
 
-export function UselessPredictions({ predictionsData }: { predictionsData: PredictionProgress }) {
-  const shareRef = useRef<HTMLDivElement>(null);
+import twitter from '@/assets/images/twitter.svg';
+import crystallBall from '@/assets/images/crystal-ball.svg';
+import uselessPredictionsBg from '@/assets/images/useless-predictions-bg.svg';
+import star from '@/assets/images/star.svg';
+
+export const UselessPredictions = forwardRef<
+  HTMLDivElement,
+  { predictionsData: PredictionProgress }
+>(({ predictionsData }, ref) => {
   const [loading, setLoading] = useState(false);
-  const { uploadImage } = useComponentToImage();
   const { toast } = useToast();
 
+  // Check if required data exists
+  const canShare = Boolean(
+    predictionsData.data.additional_data.predictions?.media_url &&
+      predictionsData.data.additional_data.predictions?.campaign_id &&
+      predictionsData.data.batch_id
+  );
+
   const handleShare = useCallback(async () => {
+    if (!canShare) {
+      toast({
+        title: 'Error',
+        description: 'Required data for sharing is missing',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setLoading(true);
     const urlBuilder = new ShareURLBuilder(window.location.origin);
     try {
-      const imagePrefix = 'useless-predictions';
-      const result = await uploadImage(shareRef, `${imagePrefix}-${predictionsData.data.batch_id}`);
+      const mediaUrl = predictionsData.data.additional_data.predictions?.media_url;
+      const campaignId = predictionsData.data.additional_data.predictions?.campaign_id;
 
-      if (!result.success) {
-        throw new Error(result.message);
+      if (!mediaUrl || !campaignId) {
+        throw new Error('Required share data is missing');
       }
 
-      const campaignId = result.data.data[0].uid;
       const { twitterShareUrl } = urlBuilder.buildShareUrls(
         predictionsData.data.batch_id,
         campaignId,
@@ -40,7 +57,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
       );
 
       // Track share event
-      trackShare('predictions', predictionsData.data.inputs.user_data.username, 'X');
+      trackShare('predictions', predictionsData.data.inputs.user_data.username);
 
       window.open(twitterShareUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
@@ -52,7 +69,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
       });
     }
     setLoading(false);
-  }, [predictionsData.data.batch_id, shareRef, toast, uploadImage]);
+  }, [predictionsData, toast, canShare]);
 
   return (
     <Card className="p-6 md:p-10 rounded-2xl relative overflow-hidden border-none">
@@ -73,9 +90,9 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
         <div className="flex justify-center items-center gap-2">
           <Button
             variant="outline"
-            className="text-sm font-medium border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr"
+            className="text-sm font-semibold border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr"
             onClick={handleShare}
-            disabled={loading}
+            disabled={loading || !canShare}
           >
             <span className="h-6 w-6">
               <Image src={twitter} height={24} width={24} alt="twitter" />
@@ -91,14 +108,15 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
           .map((prediction, index) => (
             <div
               key={index}
-              className="z-10 font-tfnr text-base text-left font-medium text-[#141414]"
+              className="z-10 font-tfnr text-base text-left font-bold text-[#141414] flex flex-nowrap gap-x-2 items-center justify-start rounded-[12px] bg-[#fef6f766] backdrop-blur-[7.5px] p-5"
             >
+              <Image src={star} height={20} width={20} alt="star" />
               {prediction.prediction}
             </div>
           ))}
       </div>
       <div className="fixed -z-50" style={{ left: '-9999px', top: '-9999px' }}>
-        <div ref={shareRef}>
+        <div ref={ref}>
           <UselessPredictionsShareTemplate
             predictions={predictionsData.data.outputs.predictions.predictions}
           />
@@ -106,4 +124,6 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
       </div>
     </Card>
   );
-}
+});
+
+UselessPredictions.displayName = 'UselessPredictions';

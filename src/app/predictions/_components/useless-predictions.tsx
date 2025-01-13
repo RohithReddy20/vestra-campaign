@@ -18,7 +18,7 @@ import { trackShare } from '@/utils/analytics';
 export function UselessPredictions({ predictionsData }: { predictionsData: PredictionProgress }) {
   const shareRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const {  uploadImage } = useComponentToImage();
+  const { uploadImage } = useComponentToImage();
   const { toast } = useToast();
 
   const handleShare = useCallback(async () => {
@@ -61,7 +61,7 @@ export function UselessPredictions({ predictionsData }: { predictionsData: Predi
         alt="Resolutions Background"
         layout="fill"
         objectFit="cover"
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-[#FCDFE4]"
       />
       <div className="relative z-10 h-10 flex justify-between items-center">
         <div className="flex justify-center items-center gap-2">

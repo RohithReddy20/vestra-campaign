@@ -16,7 +16,7 @@ import twitter from '@/assets/images/twitter.svg';
 // import linkedin from '@/assets/images/linkedin.svg';
 import { ResolutionsShareTemplate } from './resolutions-share-template';
 import { PredictionProgress } from '@/types/types';
-import {  trackShare } from '@/utils/analytics';
+import { trackShare } from '@/utils/analytics';
 // import ShinyButton from '@/components/ui/shiny-button';
 
 export function Resolutions({ predictionsData }: { predictionsData: PredictionProgress }) {
@@ -71,7 +71,7 @@ export function Resolutions({ predictionsData }: { predictionsData: PredictionPr
         alt="Resolutions Background"
         layout="fill"
         objectFit="cover"
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-[#D9C2E9]"
       />
       <div>
         <div className="relative z-10 h-10 flex justify-between items-center">

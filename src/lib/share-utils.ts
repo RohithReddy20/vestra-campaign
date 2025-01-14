@@ -12,8 +12,8 @@ export class ShareURLBuilder {
     }
     const text =
       type === 'predictions'
-        ? '🔮 Here’s what the AI predicts for me in 2025.  Try yours! Built on @vestra_ai'
-        : '🎯 My New Year resolutions, crafted by an AI Agent. Create yours now! Built on @vestra_ai';
+        ? '🔮 Here’s what the AI predicts for me in 2025.  Try yours! Built on @vestra_ai\n'
+        : '🎯 My New Year resolutions, crafted by an AI Agent. Create yours now! Built on @vestra_ai\n';
 
     const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
 

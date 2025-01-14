@@ -69,7 +69,7 @@ export function usePredictionProgress(batchId: string | null) {
 
     const poll = async () => {
       if (await fetchProgress()) return;
-      setTimeout(poll, 1000);
+      setTimeout(poll, 500);
     };
 
     if (batchId && !isComplete) {

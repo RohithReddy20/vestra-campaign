@@ -53,7 +53,8 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
         const { twitterShareUrl } = urlBuilder.buildShareUrls(
           predictionsData.data.batch_id,
           campaignId,
-          'resolutions'
+          'resolutions',
+          predictionsData.data.additional_data.resolutions?.shareable_url || ""
         );
 
         // Track share event

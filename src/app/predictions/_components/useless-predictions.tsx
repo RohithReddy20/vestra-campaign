@@ -52,7 +52,8 @@ export const UselessPredictions = forwardRef<
       const { twitterShareUrl } = urlBuilder.buildShareUrls(
         predictionsData.data.batch_id,
         campaignId,
-        'predictions'
+        'predictions',
+        predictionsData.data.additional_data.predictions?.shareable_url || ''
       );
 
       // Track share event

@@ -36,6 +36,8 @@ export default function Predictions() {
   const resolutionsRef = useRef<HTMLDivElement>(null);
   const predictionsRef = useRef<HTMLDivElement>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadAttempts, setUploadAttempts] = useState(0);
+  const MAX_UPLOAD_ATTEMPTS = 3;
 
   useEffect(() => {
     const fetchPredictions = async () => {
@@ -66,16 +68,22 @@ export default function Predictions() {
     const uploadImages = async () => {
       if (!predictionsData?.success || isUploading) return;
 
+      // Add check for maximum upload attempts
+      if (uploadAttempts >= MAX_UPLOAD_ATTEMPTS) {
+        console.warn('Maximum upload attempts reached');
+        setIsUploading(false);
+        return;
+      }
+
       const needsUpload =
         !predictionsData.data.additional_data.predictions?.media_url ||
         !predictionsData.data.additional_data.resolutions?.media_url;
 
-      if (needsUpload) {
+      if (needsUpload && predictionsRef.current && resolutionsRef.current) {
         setIsUploading(true);
         try {
           const uploads = [];
 
-          // Only upload predictions image if it doesn't exist
           if (!predictionsData.data.additional_data.predictions?.media_url) {
             uploads.push(
               uploadImage(
@@ -87,7 +95,6 @@ export default function Predictions() {
             );
           }
 
-          // Only upload resolutions image if it doesn't exist
           if (!predictionsData.data.additional_data.resolutions?.media_url) {
             uploads.push(
               uploadImage(
@@ -101,8 +108,8 @@ export default function Predictions() {
 
           if (uploads.length > 0) {
             await Promise.all(uploads);
+            setUploadAttempts(prev => prev + 1);
 
-            // Only refetch if we actually uploaded something
             const response = await fetch(`/api/progress/${batchId}`);
             if (!response.ok) {
               throw new Error('Failed to fetch updated predictions');
@@ -112,6 +119,7 @@ export default function Predictions() {
           }
         } catch (err) {
           console.error('Error uploading images:', err);
+          setUploadAttempts(prev => prev + 1);
         } finally {
           setIsUploading(false);
         }
@@ -119,7 +127,7 @@ export default function Predictions() {
     };
 
     uploadImages();
-  }, [predictionsData, batchId, uploadImage, isUploading]);
+  }, [predictionsData, batchId, uploadImage, isUploading, uploadAttempts]);
 
   const handlePredict = async (username: string) => {
     if (!username) return;
@@ -179,7 +187,7 @@ export default function Predictions() {
             variant="outline"
             className="text-xs sm:text-sm font-semibold bg-transparent text-black bg-white hover:bg-zinc-300 font-tfnr sm:w-full p-3 max-w-36"
           >
-           <Image src={vestra} height={20} width={20} alt="twitter" /> Return Home
+            <Image src={vestra} height={20} width={20} alt="twitter" /> Return Home
           </Button>
         </Link>
       </div>

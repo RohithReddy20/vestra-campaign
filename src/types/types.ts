@@ -43,11 +43,13 @@ export interface AdditionalData {
     campaign_id: string;
     media_url: string;
     x_ping_timestamp: string;
+    shareable_url: string;
   };
   resolutions?: {
     campaign_id: string;
     media_url: string;
     x_ping_timestamp: string;
+    shareable_url: string;
   };
 }
 

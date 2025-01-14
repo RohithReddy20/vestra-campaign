@@ -38,7 +38,7 @@ export function usePredictionProgress(batchId: string | null) {
         if (data.data.current_progress === 100) {
           setIsComplete(true);
           router.push(`/predictions?batchId=${batchId}`);
-          return true; // Signal to stop polling
+          return true;
         }
 
         if (data.data.error) {
@@ -50,10 +50,10 @@ export function usePredictionProgress(batchId: string | null) {
                 : 'An error occurred during processing',
             variant: 'destructive',
           });
-          return true; // Signal to stop polling
+          return true;
         }
 
-        return false; // Continue polling
+        return false;
       } catch (error) {
         if (!mounted) return true;
 
@@ -63,13 +63,12 @@ export function usePredictionProgress(batchId: string | null) {
           description: 'Failed to fetch progress',
           variant: 'destructive',
         });
-        return true; // Signal to stop polling
+        return true;
       }
     };
 
     const poll = async () => {
       if (await fetchProgress()) return;
-
       setTimeout(poll, 1000);
     };
 

@@ -170,10 +170,18 @@ export default function Predictions() {
     );
   }
 
-  if (error || !predictionsData) {
+  if (error || !predictionsData || !predictionsData.success) {
     return (
-      <div className="min-h-screen bg-[#0C0C0C] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[#0C0C0C] text-white flex items-center justify-center flex-col gap-3">
         <p>{error || 'No predictions found'}</p>
+        <Link href="/">
+          <Button
+            variant="outline"
+            className="text-xs sm:text-sm font-semibold bg-transparent text-black bg-white hover:bg-zinc-300 font-tfnr sm:w-full p-3 max-w-36"
+          >
+           <Image src={vestra} height={20} width={20} alt="twitter" /> Return Home
+          </Button>
+        </Link>
       </div>
     );
   }

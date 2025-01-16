@@ -10,9 +10,9 @@ import { ShareURLBuilder } from '@/lib/share-utils';
 import resolutionsBg from '@/assets/images/resolutions-bg.svg';
 import target from '@/assets/images/target.svg';
 import twitter from '@/assets/images/twitter.svg';
-// import whatsapp from '@/assets/images/whatsapp.svg';
-// import facebook from '@/assets/images/facebook.svg';
-// import linkedin from '@/assets/images/linkedin.svg';
+import whatsapp from '@/assets/images/whatsapp.svg';
+import facebook from '@/assets/images/facebook.svg';
+import linkedin from '@/assets/images/linkedin.svg';
 import { ResolutionsShareTemplate } from './resolutions-share-template';
 import { PredictionProgress } from '@/types/types';
 import { trackShare } from '@/utils/analytics';
@@ -30,7 +30,7 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
         predictionsData.data.batch_id
     );
 
-    const handleShare = useCallback(async () => {
+    const handleTwitterShare = useCallback(async () => {
       if (!canShare) {
         toast({
           title: 'Error',
@@ -54,12 +54,10 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
           predictionsData.data.batch_id,
           campaignId,
           'resolutions',
-          predictionsData.data.additional_data.resolutions?.shareable_url || ""
+          predictionsData.data.additional_data.resolutions?.shareable_url || ''
         );
 
-        // Track share event
         trackShare('resolutions', predictionsData.data.inputs.user_data.username);
-
         window.open(twitterShareUrl, '_blank', 'noopener,noreferrer');
       } catch (error) {
         console.error('Share error:', error);
@@ -72,6 +70,59 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
       setLoading(false);
     }, [predictionsData, toast, canShare]);
 
+    const handleWhatsAppShare = useCallback(() => {
+      const shareableUrl = predictionsData.data.additional_data.resolutions?.shareable_url;
+      if (!shareableUrl) {
+        toast({
+          title: 'Error',
+          description: 'Shareable URL is missing',
+          variant: 'destructive',
+        });
+        return;
+      }
+      const shareText = encodeURIComponent(
+        `Check out my AI-generated resolutions for 2025! ${shareableUrl}`
+      );
+      const whatsappUrl = `https://wa.me/?text=${shareText}`;
+      trackShare('resolutions_whatsapp', predictionsData.data.inputs.user_data.username);
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }, [predictionsData, toast]);
+
+    const handleFacebookShare = useCallback(() => {
+      const shareableUrl = predictionsData.data.additional_data.resolutions?.shareable_url;
+      if (!shareableUrl) {
+        toast({
+          title: 'Error',
+          description: 'Shareable URL is missing',
+          variant: 'destructive',
+        });
+        return;
+      }
+      const shareText = encodeURIComponent(`Check out my AI-generated resolutions for 2025!`);
+      const url = encodeURIComponent(shareableUrl);
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${shareText}`;
+      trackShare('resolutions_facebook', predictionsData.data.inputs.user_data.username);
+      window.open(facebookUrl, '_blank', 'noopener,noreferrer');
+    }, [predictionsData, toast]);
+
+    const handleLinkedInShare = useCallback(() => {
+      const shareableUrl = predictionsData.data.additional_data.resolutions?.shareable_url;
+      if (!shareableUrl) {
+        toast({
+          title: 'Error',
+          description: 'Shareable URL is missing',
+          variant: 'destructive',
+        });
+        return;
+      }
+      const url = encodeURIComponent(shareableUrl);
+      const title = encodeURIComponent('My AI-generated resolutions for 2025');
+      const summary = encodeURIComponent('Check out my AI-generated resolutions for 2025!');
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}&summary=${summary}`;
+      trackShare('resolutions_linkedin', predictionsData.data.inputs.user_data.username);
+      window.open(linkedinUrl, '_blank', 'noopener,noreferrer');
+    }, [predictionsData, toast]);
+
     return (
       <Card className="p-6 md:p-10 rounded-2xl relative overflow-hidden">
         <Image
@@ -82,10 +133,10 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
           className="absolute inset-0 z-0 bg-[#D9C2E9]"
         />
         <div>
-          <div className="relative z-10 h-10 flex justify-between items-center">
+          <div className="relative z-10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <div className="flex justify-center items-center gap-2">
               <Image src={target} alt="Target" width={40} height={40} />
-              <span className="text-[#141414]  font-tfnr text-base md:text-xl font-bold">
+              <span className="text-[#141414] font-tfnr text-base md:text-xl font-bold">
                 Resolutions
               </span>
             </div>
@@ -93,7 +144,7 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
               <Button
                 variant="outline"
                 className="text-sm font-semibold border-none text-white bg-[#292929] hover:bg-[#1c1c1c] hover:text-white font-tfnr"
-                onClick={handleShare}
+                onClick={handleTwitterShare}
                 disabled={loading || !canShare}
               >
                 <span className="h-6 w-6">
@@ -101,15 +152,27 @@ export const Resolutions = forwardRef<HTMLDivElement, { predictionsData: Predict
                 </span>
                 {loading ? 'Sharing...' : 'Share'}
               </Button>
-              {/* <Button className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200">
+              <Button
+                className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200"
+                onClick={handleWhatsAppShare}
+                disabled={!canShare}
+              >
                 <Image src={whatsapp} height={100} width={100} alt="whatsapp" />
               </Button>
-              <Button className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200">
+              <Button
+                className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200"
+                onClick={handleFacebookShare}
+                disabled={!canShare}
+              >
                 <Image src={facebook} height={100} width={100} alt="facebook" />
               </Button>
-              <Button className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200">
+              <Button
+                className="bg-transparent p-0 h-10 w-10 hover:bg-slate-200"
+                onClick={handleLinkedInShare}
+                disabled={!canShare}
+              >
                 <Image src={linkedin} height={100} width={100} alt="linkedin" />
-              </Button> */}
+              </Button>
             </div>
           </div>
 

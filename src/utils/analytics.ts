@@ -17,6 +17,12 @@ export enum AnalyticsEvent {
   // Share Events
   PREDICTIONS_TWITTER_SHARE_PREDICTIONS = 'PREDICTIONS_TWITTER_SHARE_PREDICTIONS',
   PREDICTIONS_TWITTER_SHARE_RESOLUTIONS = 'PREDICTIONS_TWITTER_SHARE_RESOLUTIONS',
+  PREDICTIONS_WHATSAPP_SHARE_PREDICTIONS = 'PREDICTIONS_WHATSAPP_SHARE_PREDICTIONS',
+  PREDICTIONS_WHATSAPP_SHARE_RESOLUTIONS = 'PREDICTIONS_WHATSAPP_SHARE_RESOLUTIONS',
+  PREDICTIONS_FACEBOOK_SHARE_PREDICTIONS = 'PREDICTIONS_FACEBOOK_SHARE_PREDICTIONS',
+  PREDICTIONS_FACEBOOK_SHARE_RESOLUTIONS = 'PREDICTIONS_FACEBOOK_SHARE_RESOLUTIONS',
+  PREDICTIONS_LINKEDIN_SHARE_PREDICTIONS = 'PREDICTIONS_LINKEDIN_SHARE_PREDICTIONS',
+  PREDICTIONS_LINKEDIN_SHARE_RESOLUTIONS = 'PREDICTIONS_LINKEDIN_SHARE_RESOLUTIONS',
 
   // Try With Own Profile Event
   PREDICTIONS_TRY_WITH_OWN_PROFILE = 'PREDICTIONS_TRY_WITH_OWN_PROFILE',
@@ -38,6 +44,24 @@ export interface AnalyticsEventProperties {
     username: string;
   };
   [AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_RESOLUTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_WHATSAPP_SHARE_PREDICTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_WHATSAPP_SHARE_RESOLUTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_FACEBOOK_SHARE_PREDICTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_FACEBOOK_SHARE_RESOLUTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_LINKEDIN_SHARE_PREDICTIONS]: {
+    username: string;
+  };
+  [AnalyticsEvent.PREDICTIONS_LINKEDIN_SHARE_RESOLUTIONS]: {
     username: string;
   };
   [AnalyticsEvent.PREDICTIONS_TRY_WITH_OWN_PROFILE]: {
@@ -77,11 +101,46 @@ export const trackFollowTwitter = () => {
   trackEvent(AnalyticsEvent.PREDICTIONS_CLICK_FOLLOW_TWITTER);
 };
 
-export const trackShare = (type: 'predictions' | 'resolutions', username: string) => {
-  const eventName =
-    type === 'predictions'
-      ? AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_PREDICTIONS
-      : AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_RESOLUTIONS;
+export const trackShare = (
+  type:
+    | 'predictions'
+    | 'resolutions'
+    | 'predictions_whatsapp'
+    | 'predictions_facebook'
+    | 'predictions_linkedin'
+    | 'resolutions_whatsapp'
+    | 'resolutions_facebook'
+    | 'resolutions_linkedin',
+  username: string
+) => {
+  let eventName: AnalyticsEvent;
+
+  switch (type) {
+    case 'predictions':
+      eventName = AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_PREDICTIONS;
+      break;
+    case 'resolutions':
+      eventName = AnalyticsEvent.PREDICTIONS_TWITTER_SHARE_RESOLUTIONS;
+      break;
+    case 'predictions_whatsapp':
+      eventName = AnalyticsEvent.PREDICTIONS_WHATSAPP_SHARE_PREDICTIONS;
+      break;
+    case 'resolutions_whatsapp':
+      eventName = AnalyticsEvent.PREDICTIONS_WHATSAPP_SHARE_RESOLUTIONS;
+      break;
+    case 'predictions_facebook':
+      eventName = AnalyticsEvent.PREDICTIONS_FACEBOOK_SHARE_PREDICTIONS;
+      break;
+    case 'resolutions_facebook':
+      eventName = AnalyticsEvent.PREDICTIONS_FACEBOOK_SHARE_RESOLUTIONS;
+      break;
+    case 'predictions_linkedin':
+      eventName = AnalyticsEvent.PREDICTIONS_LINKEDIN_SHARE_PREDICTIONS;
+      break;
+    case 'resolutions_linkedin':
+      eventName = AnalyticsEvent.PREDICTIONS_LINKEDIN_SHARE_RESOLUTIONS;
+      break;
+  }
 
   trackEvent(eventName, { username });
 };

@@ -33,7 +33,7 @@ export default async function Image({
       >
         <img
           src={imageUrl}
-          alt={type === 'predictions' ? 'My Useless Predictions' : 'My Resolutions'}
+          alt={type === 'predictions' ? 'My Predictions' : 'My Resolutions'}
           style={{
             width: '100%',
             height: '100%',

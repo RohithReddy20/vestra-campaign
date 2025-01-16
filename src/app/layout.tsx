@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: 'Vestra AI',
+    images: {
+      url: `https://predictions.vestra.ai/png/default-preview.png`,
+    },
   },
 };
 

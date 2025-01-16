@@ -23,7 +23,7 @@ export async function generateMetadata({ searchParams }: SharePageProps): Promis
   const imagePrefix = type === 'predictions' ? 'useless-predictions' : 'resolutions';
   // const imageUrl = `${BASE_CDN_URL}/${campaignId}/${imagePrefix}-${batchId}.png`;
   const imageUrl = `${BASE_CDN_URL}/${batchId}/media/${type}_${campaignId}/${imagePrefix}-${batchId}`;
-  const title = type === 'predictions' ? 'My Useless Predictions' : 'My 2024 Resolutions';
+  const title = type === 'predictions' ? 'My Predictions' : 'My 2024 Resolutions';
   const description =
     type === 'predictions'
       ? '🔮 Check out my AI predictions for 2025!'

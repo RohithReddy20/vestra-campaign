@@ -31,7 +31,7 @@ export function UselessPredictionsShareTemplate({
           <Image src={crystallBall} alt="Crystal Ball" width={36} height={36} />
         </div>
         <span className="text-2xl font-tfnr font-bold text-[#141414] tracking-tight">
-          Useless Predictions
+          Predictions
         </span>
       </div>
 

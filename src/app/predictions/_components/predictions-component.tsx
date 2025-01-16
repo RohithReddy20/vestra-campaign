@@ -288,6 +288,7 @@ export default function Predictions() {
             <UselessPredictions predictionsData={predictionsData} ref={predictionsRef} />
             <Resolutions predictionsData={predictionsData} ref={resolutionsRef} />
           </div>
+          <p className='font-alliance font-normal text-base text-white leading-8 pt-4'>These predictions and resolutions are purely for entertainment purposes. No advice or insights should be taken seriously. Laugh responsibly!</p>
 
           <div className="relative rounded-[20px] flex justify-center items-center mt-8 sm:mt-16 w-full max-w-[1100px] overflow-hidden p-4 sm:p-6 md:p-10 mx-auto">
             <Image
